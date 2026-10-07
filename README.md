@@ -7,7 +7,7 @@ Bu depo, **CENG 121 Algoritmalar ve Programlama** dersi laboratuvar uygulamalar�
 ## 📌 İçindekiler ve Müfredat Yapısı
 
 * **[Hafta 2: Akış Diyagramı Uygulamaları](#-hafta-2-akış-diyagramı-uygulamaları)** *(Görsel Algoritma Tasarımı & JSON Çözümleri)*
-* **[Hafta 3: C Programlama Uygulamaları](#-hafta-3-c-programlama-uygulamaları)** *(Eklenecek)*
+* **[Hafta 3: C Programlama Uygulamaları](#-hafta-3-c-programlama-uygulamaları)** *(Temel G/Ç, Değişkenler, Aritmetik Operatörler & Koşul)*
 * **[Hafta 4: C Programlama Uygulamaları](#-hafta-4-c-programlama-uygulamaları)** *(Eklenecek)*
 
 ---
@@ -84,9 +84,80 @@ Hafta 2 çözümleri, akış diyagramı modelleme ve yorumlama aracı olan **[C 
 
 ---
 
-## 📂 Hafta 3: C Programlama Uygulamaları
+## 💻 Hafta 3: C Programlama Uygulamaları
 
-*(Bu bölüm çözümler eklendiğinde güncellenecektir.)*
+Hafta 3 laboratuvarında C diline giriş yapılmış; standart giriş/çıkış fonksiyonları (`printf`, `scanf`), kaçış dizileri, temel veri tipleri (`int`, `double`), aritmetik ve modülüs operatörleri ile temel koşul yapıları (`if`) ele alınmıştır.
+
+### 📋 Hafta 3 Problem ve Çözüm Özeti
+
+| Dosya | Problem | Konu & Anahtar Kavramlar |
+| :--- | :--- | :--- |
+| [`p3.1.c`](hafta3/p3.1.c) | **Merhaba Dünya ve Kaçış Dizileri** | `printf`, satır sonu (`\n`), çift tırnak kaçış dizisi (`\"`) |
+| [`p3.2.c`](hafta3/p3.2.c) | **İki Tamsayının Toplamı** | `scanf("%d%d")`, değişken tanımlama, aritmetik toplama (`+`) |
+| [`p3.3.c`](hafta3/p3.3.c) | **Tek / Çift Sayı Kontrolü** | Mod operatörü (`%`), ardışık bağımsız `if` blokları (`else` henüz işlenmediği için) |
+| [`p3.4.c`](hafta3/p3.4.c) | **5 Basamaklı Sayıyı Ayrıştırma** | Tamsayı bölme (`/`) ve mod (`%`) operatörleriyle basamak çözümleme |
+| [`p3.5.c`](hafta3/p3.5.c) | **Silindir Hacmi Hesabı** | `double` ve `int` tipleri, `scanf("%lf%d")`, formatlı ondalıklı yazdırma (`%.2f`) |
+
+---
+
+### 🔍 Kodların Detaylı Analizi
+
+#### 1. Problem 3.1: Merhaba Dünya ve Kaçış Dizileri ([`p3.1.c`](hafta3/p3.1.c))
+* **Amaç:** Ekrana 3 satırdan oluşan formatlı metni yazdırmak.
+* **Beklenen Çıktı:**
+  ```text
+  Merhaba Dunya!
+  C Programlama Laboratuvarina Hos Geldiniz.
+  "CENG 111" - Pamukkale Universitesi
+  ```
+* **Önemli Noktalar:**
+  * Çift tırnak (`"`) C dilinde string değişmezlerini başlatıp bitirdiği için, ekrana tırnak işareti basmak amacıyla `\"` kaçış dizisi (escape sequence) kullanılmıştır.
+  * Her satırın sonunda alt satıra geçmek için `\n` karakteri eklenmiştir.
+
+#### 2. Problem 3.2: İki Tamsayının Toplamı ([`p3.2.c`](hafta3/p3.2.c))
+* **Amaç:** Kullanıcıdan iki adet tamsayı alıp toplamını ekrana yazdırmak.
+* **Önemli Noktalar:**
+  * `int s1, s2, toplam;` ile tamsayı türünde değişkenler tanımlanmıştır.
+  * `scanf("%d%d", &s1, &s2);` ifadesiyle kullanıcıdan boşluk veya yeni satır ile ayrılmış iki sayı okunmuştur.
+  * Otomatik değerlendirme ortamları için ekrana ekstra kılavuz metin basılmadan sadece sonuç (`%d\n`) yazdırılmıştır.
+
+#### 3. Problem 3.3: Tek / Çift Sayı Kontrolü ([`p3.3.c`](hafta3/p3.3.c))
+* **Amaç:** Girilen tamsayı çift ise `"çift"`, tek ise `"tek"` yazdırmak.
+* **Önemli Noktalar:**
+  * Mod operatörü (`%`) kullanılarak sayının 2'ye bölümünden kalan kontrol edilmiştir (`sayi % 2 == 0` ve `sayi % 2 == 1`).
+  * Laboratuvar akışında henüz `else` yapısı gösterilmediği için iki adet bağımsız `if` koşulu kullanılmıştır.
+
+#### 4. Problem 3.4: 5 Basamaklı Sayının Basamaklarını Ayrıştırma ([`p3.4.c`](hafta3/p3.4.c))
+* **Amaç:** 5 basamaklı bir tamsayının (örn. `12345`) basamak değerlerini büyük basamaktan küçüğe doğru alt alta yazdırmak.
+* **Matematiksel Mantık:**
+  * **Birler:** `sayi % 10`
+  * **Onlar:** `(sayi / 10) % 10`
+  * **Yüzler:** `(sayi / 100) % 10`
+  * **Binler:** `(sayi / 1000) % 10`
+  * **On Binler:** `sayi / 10000`
+* Tamsayı bölme işleminde (`int / int`) kesirli kısmın atılması (truncation) özelliğinden faydalanılmıştır.
+
+#### 5. Problem 3.5: Silindir Hacmi Hesabı ([`p3.5.c`](hafta3/p3.5.c))
+* **Amaç:** Yarıçapı `r` (ondalıklı - `double`) ve yüksekliği `h` (tamsayı - `int`) verilen silindirin hacmini hesaplamak.
+* **Formül:** $Hacim = \pi \cdot r^2 \cdot h$
+* **Önemli Noktalar:**
+  * `double` türü için `scanf` format belirteci olarak `%lf` (long float) kullanılmıştır.
+  * `printf("%.2f", hacim);` ile sonuç virgülden sonra tam 2 basamak olacak şekilde sınırlandırılmıştır.
+
+---
+
+### ⚙️ C Kodlarını Derleme ve Çalıştırma
+
+Terminal üzerinden herhangi bir C kodunu derleyip çalıştırmak için:
+
+```bash
+# Örnek: Problem 3.1 için
+gcc -Wall hafta3/p3.1.c -o p3.1
+./p3.1
+
+# veya Clang ile tek komutta derleme ve çalıştırma:
+clang hafta3/p3.2.c -o p3.2 && ./p3.2
+```
 
 ---
 
