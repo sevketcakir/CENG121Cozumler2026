@@ -1,0 +1,179 @@
+{
+  "drawflow": {
+    "Home": {
+      "data": {
+        "22": {
+          "id": 22,
+          "name": "start",
+          "class": "start",
+          "data": {},
+          "html": "\n        <div class=\"flowchart-node-content shape-oval shape-start\">\n          <div class=\"node-title\">BAŞLA</div>\n          <div class=\"node-subtitle\">int main()</div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {},
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "24",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": 260,
+          "pos_y": 40
+        },
+        "23": {
+          "id": 23,
+          "name": "end",
+          "class": "end",
+          "data": {},
+          "html": "\n        <div class=\"flowchart-node-content shape-oval shape-end\">\n          <div class=\"node-title\">BİTİR</div>\n          <div class=\"node-subtitle\">return 0;</div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "27",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {},
+          "pos_x": 260,
+          "pos_y": 705
+        },
+        "24": {
+          "id": 24,
+          "name": "input",
+          "class": "input",
+          "data": {
+            "variableName": "r,h",
+            "variablename": "r,h"
+          },
+          "html": "\n        <div class=\"flowchart-node-content node-parallelogram shape-input \">\n          <svg class=\"shape-svg\" viewBox=\"0 0 190 80\" preserveAspectRatio=\"none\">\n            <polygon points=\"26,5 185,5 164,75 5,75\" class=\"svg-shape-path svg-input\" />\n          </svg>\n          <div class=\"node-inner-content\">\n            <div class=\"node-header\">Girdi (scanf)</div>\n            <textarea df-variablename class=\"node-textarea\" rows=\"1\" placeholder=\"ör. a, b, c\" title=\"r,h\">r,h</textarea>\n          </div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "22",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "25",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": 260,
+          "pos_y": 170
+        },
+        "25": {
+          "id": 25,
+          "name": "assignment",
+          "class": "assignment",
+          "data": {
+            "expression": "pi = 3.14159265"
+          },
+          "html": "\n        <div class=\"flowchart-node-content shape-rectangle\" style=\"width: 270px;\">\n          <div class=\"node-header\">İşlem / Atama</div>\n          <div class=\"node-body\">\n            <textarea df-expression class=\"node-textarea\" style=\"max-width: 250px;\" rows=\"1\" placeholder=\"ör. a = 5\nb = 10\" title=\"pi = 3.14159265\">pi = 3.14159265</textarea>\n          </div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "24",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "26",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": 260,
+          "pos_y": 300
+        },
+        "26": {
+          "id": 26,
+          "name": "assignment",
+          "class": "assignment",
+          "data": {
+            "expression": "V = pi * r * r * h"
+          },
+          "html": "\n        <div class=\"flowchart-node-content shape-rectangle\" style=\"width: 270px;\">\n          <div class=\"node-header\">İşlem / Atama</div>\n          <div class=\"node-body\">\n            <textarea df-expression class=\"node-textarea\" style=\"max-width: 250px;\" rows=\"1\" placeholder=\"ör. a = 5\nb = 10\" title=\"V = pi * r * r * h\">V = pi * r * r * h</textarea>\n          </div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "25",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "27",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": 260,
+          "pos_y": 430
+        },
+        "27": {
+          "id": 27,
+          "name": "output",
+          "class": "output",
+          "data": {
+            "expression": "\"Hacim: \"+V"
+          },
+          "html": "\n        <div class=\"flowchart-node-content node-document shape-output\">\n          <svg class=\"shape-svg\" viewBox=\"0 0 200 105\" preserveAspectRatio=\"none\">\n            <path d=\"M 5,5 L 195,5 L 195,74 C 155,98 145,98 100,74 C 55,50 45,50 5,74 Z\" class=\"svg-shape-path svg-document\" />\n          </svg>\n          <div class=\"node-inner-content\">\n            <div class=\"node-header\">Çıktı (printf)</div>\n            <textarea df-expression class=\"node-textarea\" rows=\"1\" placeholder=\"ör. \"Sonuç: \" + toplam\" title=\"&quot;Hacim: &quot;+V\">&quot;Hacim: &quot;+V</textarea>\n          </div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "26",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "23",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": 260,
+          "pos_y": 560
+        }
+      }
+    }
+  }
+}

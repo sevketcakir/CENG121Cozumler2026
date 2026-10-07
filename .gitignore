@@ -1,3 +1,20 @@
+# Compiled executables with no extension (e.g. clang/gcc output)
+*
+!*/
+!*.*
+
+# Whitelist common files without extension
+!Makefile
+!makefile
+!GNUmakefile
+!LICENSE*
+!LICENCE*
+!README*
+!CHANGELOG*
+!AUTHORS*
+!CONTRIBUTING*
+!TODO*
+
 # Prerequisites
 *.d
 
@@ -36,11 +53,15 @@
 *.x86_64
 *.hex
 
-# Debug files
+# Debug files & folders (including Apple LLDB / dSYM)
 *.dSYM/
+*.dSYM
+*.dsym/
+*.dsym
 *.su
 *.idb
 *.pdb
+*.dwo
 
 # Kernel Module Compile Results
 *.mod*
@@ -51,5 +72,16 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# debug information files
-*.dwo
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Editor & IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

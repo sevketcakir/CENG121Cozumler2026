@@ -1,0 +1,451 @@
+{
+  "drawflow": {
+    "Home": {
+      "data": {
+        "48": {
+          "id": 48,
+          "name": "start",
+          "class": "start",
+          "data": {},
+          "html": "\n        <div class=\"flowchart-node-content shape-oval shape-start\">\n          <div class=\"node-title\">BAŞLA</div>\n          <div class=\"node-subtitle\">int main()</div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {},
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "49",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": 260,
+          "pos_y": 40
+        },
+        "49": {
+          "id": 49,
+          "name": "input",
+          "class": "input",
+          "data": {
+            "variableName": "s1,s2,s3,s4,s5",
+            "variablename": "s1,s2,s3,s4,s5"
+          },
+          "html": "\n        <div class=\"flowchart-node-content node-parallelogram shape-input \">\n          <svg class=\"shape-svg\" viewBox=\"0 0 190 80\" preserveAspectRatio=\"none\">\n            <polygon points=\"26,5 185,5 164,75 5,75\" class=\"svg-shape-path svg-input\" />\n          </svg>\n          <div class=\"node-inner-content\">\n            <div class=\"node-header\">Girdi (scanf)</div>\n            <textarea df-variablename class=\"node-textarea\" rows=\"1\" placeholder=\"ör. a, b, c\" title=\"s1,s2,s3,s4,s5\">s1,s2,s3,s4,s5</textarea>\n          </div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "48",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "50",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": 260,
+          "pos_y": 170
+        },
+        "50": {
+          "id": 50,
+          "name": "assignment",
+          "class": "assignment",
+          "data": {
+            "expression": "eb = s1"
+          },
+          "html": "\n        <div class=\"flowchart-node-content shape-rectangle\" style=\"width: 270px;\">\n          <div class=\"node-header\">İşlem / Atama</div>\n          <div class=\"node-body\">\n            <textarea df-expression class=\"node-textarea\" style=\"max-width: 250px;\" rows=\"1\" placeholder=\"ör. a = 5\nb = 10\" title=\"eb = s1\">eb = s1</textarea>\n          </div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "49",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "51",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": 260,
+          "pos_y": 300
+        },
+        "51": {
+          "id": 51,
+          "name": "decision",
+          "class": "decision",
+          "data": {
+            "condition": "s2 > eb"
+          },
+          "html": "\n        <div class=\"flowchart-node-content node-diamond\">\n          <svg class=\"shape-svg\" viewBox=\"0 0 190 110\" preserveAspectRatio=\"none\">\n            <polygon points=\"95,5 185,55 95,105 5,55\" class=\"svg-shape-path svg-decision\" />\n          </svg>\n          <div class=\"node-inner-content\">\n            <div class=\"node-header\">Karar (If)</div>\n            <textarea df-condition class=\"node-textarea\" rows=\"1\" placeholder=\"ör. puan >= 50\" title=\"s2 &gt; eb\">s2 &gt; eb</textarea>\n          </div>\n          <div class=\"port-label port-label-true\">Doğru (← D)</div>\n          <div class=\"port-label port-label-false\">Yanlış (Y →)</div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "50",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "52",
+                  "output": "input_1"
+                }
+              ]
+            },
+            "output_2": {
+              "connections": [
+                {
+                  "node": "53",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": 260,
+          "pos_y": 430
+        },
+        "52": {
+          "id": 52,
+          "name": "assignment",
+          "class": "assignment",
+          "data": {
+            "expression": "eb = s2"
+          },
+          "html": "\n        <div class=\"flowchart-node-content shape-rectangle\" style=\"width: 270px;\">\n          <div class=\"node-header\">İşlem / Atama</div>\n          <div class=\"node-body\">\n            <textarea df-expression class=\"node-textarea\" style=\"max-width: 250px;\" rows=\"1\" placeholder=\"ör. a = 5\nb = 10\" title=\"eb = s2\">eb = s2</textarea>\n          </div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "51",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "53",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": -20,
+          "pos_y": 590
+        },
+        "53": {
+          "id": 53,
+          "name": "decision",
+          "class": "decision",
+          "data": {
+            "condition": "s3 > eb"
+          },
+          "html": "\n        <div class=\"flowchart-node-content node-diamond\">\n          <svg class=\"shape-svg\" viewBox=\"0 0 190 110\" preserveAspectRatio=\"none\">\n            <polygon points=\"95,5 185,55 95,105 5,55\" class=\"svg-shape-path svg-decision\" />\n          </svg>\n          <div class=\"node-inner-content\">\n            <div class=\"node-header\">Karar (If)</div>\n            <textarea df-condition class=\"node-textarea\" rows=\"1\" placeholder=\"ör. puan >= 50\" title=\"s3 &gt; eb\">s3 &gt; eb</textarea>\n          </div>\n          <div class=\"port-label port-label-true\">Doğru (← D)</div>\n          <div class=\"port-label port-label-false\">Yanlış (Y →)</div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "52",
+                  "input": "output_1"
+                },
+                {
+                  "node": "51",
+                  "input": "output_2"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "54",
+                  "output": "input_1"
+                }
+              ]
+            },
+            "output_2": {
+              "connections": [
+                {
+                  "node": "55",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": -20,
+          "pos_y": 720
+        },
+        "54": {
+          "id": 54,
+          "name": "assignment",
+          "class": "assignment",
+          "data": {
+            "expression": "eb = s3"
+          },
+          "html": "\n        <div class=\"flowchart-node-content shape-rectangle\" style=\"width: 270px;\">\n          <div class=\"node-header\">İşlem / Atama</div>\n          <div class=\"node-body\">\n            <textarea df-expression class=\"node-textarea\" style=\"max-width: 250px;\" rows=\"1\" placeholder=\"ör. a = 5\nb = 10\" title=\"eb = s3\">eb = s3</textarea>\n          </div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "53",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "55",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": -300,
+          "pos_y": 880
+        },
+        "55": {
+          "id": 55,
+          "name": "decision",
+          "class": "decision",
+          "data": {
+            "condition": "s4 > eb"
+          },
+          "html": "\n        <div class=\"flowchart-node-content node-diamond\">\n          <svg class=\"shape-svg\" viewBox=\"0 0 190 110\" preserveAspectRatio=\"none\">\n            <polygon points=\"95,5 185,55 95,105 5,55\" class=\"svg-shape-path svg-decision\" />\n          </svg>\n          <div class=\"node-inner-content\">\n            <div class=\"node-header\">Karar (If)</div>\n            <textarea df-condition class=\"node-textarea\" rows=\"1\" placeholder=\"ör. puan >= 50\" title=\"s4 &gt; eb\">s4 &gt; eb</textarea>\n          </div>\n          <div class=\"port-label port-label-true\">Doğru (← D)</div>\n          <div class=\"port-label port-label-false\">Yanlış (Y →)</div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "54",
+                  "input": "output_1"
+                },
+                {
+                  "node": "53",
+                  "input": "output_2"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "56",
+                  "output": "input_1"
+                }
+              ]
+            },
+            "output_2": {
+              "connections": [
+                {
+                  "node": "57",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": -300,
+          "pos_y": 1010
+        },
+        "56": {
+          "id": 56,
+          "name": "assignment",
+          "class": "assignment",
+          "data": {
+            "expression": "eb = s4"
+          },
+          "html": "\n        <div class=\"flowchart-node-content shape-rectangle\" style=\"width: 270px;\">\n          <div class=\"node-header\">İşlem / Atama</div>\n          <div class=\"node-body\">\n            <textarea df-expression class=\"node-textarea\" style=\"max-width: 250px;\" rows=\"1\" placeholder=\"ör. a = 5\nb = 10\" title=\"eb = s4\">eb = s4</textarea>\n          </div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "55",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "57",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": -580,
+          "pos_y": 1170
+        },
+        "57": {
+          "id": 57,
+          "name": "decision",
+          "class": "decision",
+          "data": {
+            "condition": "s5 > eb"
+          },
+          "html": "\n        <div class=\"flowchart-node-content node-diamond\">\n          <svg class=\"shape-svg\" viewBox=\"0 0 190 110\" preserveAspectRatio=\"none\">\n            <polygon points=\"95,5 185,55 95,105 5,55\" class=\"svg-shape-path svg-decision\" />\n          </svg>\n          <div class=\"node-inner-content\">\n            <div class=\"node-header\">Karar (If)</div>\n            <textarea df-condition class=\"node-textarea\" rows=\"1\" placeholder=\"ör. puan >= 50\" title=\"s5 &gt; eb\">s5 &gt; eb</textarea>\n          </div>\n          <div class=\"port-label port-label-true\">Doğru (← D)</div>\n          <div class=\"port-label port-label-false\">Yanlış (Y →)</div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "55",
+                  "input": "output_2"
+                },
+                {
+                  "node": "56",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "58",
+                  "output": "input_1"
+                }
+              ]
+            },
+            "output_2": {
+              "connections": [
+                {
+                  "node": "59",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": -580,
+          "pos_y": 1300
+        },
+        "58": {
+          "id": 58,
+          "name": "assignment",
+          "class": "assignment",
+          "data": {
+            "expression": "eb = s5"
+          },
+          "html": "\n        <div class=\"flowchart-node-content shape-rectangle\" style=\"width: 270px;\">\n          <div class=\"node-header\">İşlem / Atama</div>\n          <div class=\"node-body\">\n            <textarea df-expression class=\"node-textarea\" style=\"max-width: 250px;\" rows=\"1\" placeholder=\"ör. a = 5\nb = 10\" title=\"eb = s5\">eb = s5</textarea>\n          </div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "57",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "59",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": -860,
+          "pos_y": 1460
+        },
+        "59": {
+          "id": 59,
+          "name": "output",
+          "class": "output",
+          "data": {
+            "expression": "\"En Buyuk: \" + eb"
+          },
+          "html": "\n        <div class=\"flowchart-node-content node-document shape-output\">\n          <svg class=\"shape-svg\" viewBox=\"0 0 200 105\" preserveAspectRatio=\"none\">\n            <path d=\"M 5,5 L 195,5 L 195,74 C 155,98 145,98 100,74 C 55,50 45,50 5,74 Z\" class=\"svg-shape-path svg-document\" />\n          </svg>\n          <div class=\"node-inner-content\">\n            <div class=\"node-header\">Çıktı (printf)</div>\n            <textarea df-expression class=\"node-textarea\" rows=\"1\" placeholder=\"ör. \"Sonuç: \" + toplam\" title=\"&quot;En Buyuk: &quot; + eb\">&quot;En Buyuk: &quot; + eb</textarea>\n          </div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "58",
+                  "input": "output_1"
+                },
+                {
+                  "node": "57",
+                  "input": "output_2"
+                }
+              ]
+            }
+          },
+          "outputs": {
+            "output_1": {
+              "connections": [
+                {
+                  "node": "60",
+                  "output": "input_1"
+                }
+              ]
+            }
+          },
+          "pos_x": -860,
+          "pos_y": 1590
+        },
+        "60": {
+          "id": 60,
+          "name": "end",
+          "class": "end",
+          "data": {},
+          "html": "\n        <div class=\"flowchart-node-content shape-oval shape-end\">\n          <div class=\"node-title\">BİTİR</div>\n          <div class=\"node-subtitle\">return 0;</div>\n        </div>\n      ",
+          "typenode": false,
+          "inputs": {
+            "input_1": {
+              "connections": [
+                {
+                  "node": "59",
+                  "input": "output_1"
+                }
+              ]
+            }
+          },
+          "outputs": {},
+          "pos_x": -860,
+          "pos_y": 1735
+        }
+      }
+    }
+  }
+}
