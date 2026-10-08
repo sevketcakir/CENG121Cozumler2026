@@ -8,7 +8,7 @@ Bu depo, **CENG 121 Algoritmalar ve Programlama** dersi laboratuvar uygulamalar�
 
 * **[Hafta 2: Akış Diyagramı Uygulamaları](#-hafta-2-akış-diyagramı-uygulamaları)** *(Görsel Algoritma Tasarımı & JSON Çözümleri)*
 * **[Hafta 3: C Programlama Uygulamaları](#-hafta-3-c-programlama-uygulamaları)** *(Temel G/Ç, Değişkenler, Aritmetik Operatörler & Koşul)*
-* **[Hafta 4: C Programlama Uygulamaları](#-hafta-4-c-programlama-uygulamaları)** *(Eklenecek)*
+* **[Hafta 4: C Programlama Uygulamaları](#-hafta-4-c-programlama-uygulamaları)** *(Döngüler (while), Sayaç Mantığı, Karar Yapıları & Formül Uygulamaları)*
 
 ---
 
@@ -161,6 +161,84 @@ clang hafta3/p3.2.c -o p3.2 && ./p3.2
 
 ---
 
-## 📂 Hafta 4: C Programlama Uygulamaları
+## 🔁 Hafta 4: C Programlama Uygulamaları
 
-*(Bu bölüm çözümler eklendiğinde güncellenecektir.)*
+Hafta 4 laboratuvarında `while` döngüsü yapısı, döngü içi sayaç ve akümülatör mantığı, çok dallı karar yapıları (`if - else if - else`), kullanıcıdan ardışık veri alma ve matematiksel formüllerin C dilinde modellenmesi ele alınmıştır.
+
+### 📋 Hafta 4 Problem ve Çözüm Özeti
+
+| Dosya | Problem | Konu & Anahtar Kavramlar |
+| :--- | :--- | :--- |
+| [`p4.1.c`](hafta4/p4.1.c) | **Basit Faiz Hesabı** | Karma veri tipleri (`double`, `int`), aritmetik işlem önceliği, formatlı ondalıklı yazdırma (`%.2f`) |
+| [`p4.2.c`](hafta4/p4.2.c) | **15 Sayıdan Negatif Olanların Sayısı** | `while` döngüsü, sayaç mantığı, döngü içi koşul kontrolü (`if (sayi < 0)`) |
+| [`p4.3.c`](hafta4/p4.3.c) | **10 Sayının En Büyüğü (Maksimum Bulma)** | `while` döngüsü, aralık başlangıç değeri (`enBuyuk = -100`), dinamik değer güncelleme |
+| [`p4.4.c`](hafta4/p4.4.c) | **Kendisinden Küçük Tam Bölenlerin Sayısı** | Sayaç kontrollü döngü, modülüs (`%`) operatörü ile tam bölünebilirlik tespiti |
+| [`p4.5.c`](hafta4/p4.5.c) | **Vücut Kitle İndeksi (VKİ) ve Sınıflandırma** | `double` hassasiyeti, kademeli `if - else if - else` karar merdiveni |
+
+---
+
+### 🔍 Kodların Detaylı Analizi
+
+#### 1. Problem 4.1: Basit Faiz Hesabı ([`p4.1.c`](hafta4/p4.1.c))
+* **Amaç:** Kullanıcıdan anapara, faiz oranı ve gün sayısını alarak basit faiz getirisini hesaplamak.
+* **Matematiksel Formül:**
+  $$faiz = \frac{anapara \times oran \times gun}{365}$$
+* **Önemli Noktalar:**
+  * `anapara` ve `oran` ondalıklı değerler olabileceği için `double`, `gun` ise tamsayı gün değerini temsil ettiği için `int` olarak tanımlanmıştır.
+  * `scanf("%lf%lf%d", &anapara, &oran, &gun);` ile tüm girdiler sırayla okunur.
+  * Formüldeki pay kısmında `double` türünde değişkenler bulunduğu için, 365 tamsayısına bölündüğünde C dili otomatik tip yükseltmesi (implicit type conversion) yapar ve tamsayı bölme hatası (integer division) oluşmaz.
+  * Sonuç, virgülden sonra iki basamak duyarlılıkla (`printf("%.2f\n", faiz);`) ekrana yazdırılır.
+
+#### 2. Problem 4.2: 15 Sayıdan Negatif Olanların Tespiti ([`p4.2.c`](hafta4/p4.2.c))
+* **Amaç:** Kullanıcı tarafından girilen 15 adet tamsayıdan kaç tanesinin negatif (`< 0`) olduğunu tespit etmek.
+* **Algoritma Mantığı:**
+  * `sayac = 0` ve `negatif = 0` değişkenleri ilklendirilir.
+  * `while (sayac < 15)` döngüsü ile 15 adet sayı sırayla kullanıcıdan alınır (`scanf("%d", &sayi);`).
+  * Her adımda sayının işareti kontrol edilir (`if (sayi < 0)`); sayı sıfırdan küçükse `negatif++` ile sayaç artırılır.
+  * Her turda `sayac++` ile döngü sayacı ilerletilir ve döngü sonunda negatif sayıların toplam adedi yazdırılır.
+
+#### 3. Problem 4.3: 10 Tamsayının En Büyüğü ([`p4.3.c`](hafta4/p4.3.c))
+* **Amaç:** Kullanıcıdan $[-100, 100]$ aralığında girilen 10 tamsayı içerisinden en büyük olanını bulmak.
+* **Algoritma Mantığı:**
+  * Girilen sayıların $[-100, 100]$ aralığında olduğu bilindiğinden, `enBuyuk` değişkenine bu aralıktaki en küçük olası değer olan `-100` atanmıştır. Böylece kullanıcıdan gelen ilk değer dahi güvenle karşılaştırılabilir.
+  * `while (sayac < 10)` döngüsü içerisinde sayılar tek tek okunur.
+  * Eğer okunan sayı mevcut `enBuyuk` değerinden daha büyükse (`if (sayi > enBuyuk)`), `enBuyuk = sayi;` yapılarak en büyük değer güncellenir.
+  * 10 sayının okunması tamamlandığında bulunan en büyük değer ekrana basılır.
+
+#### 4. Problem 4.4: Kendisinden Küçük Tam Bölenlerin Sayısı ([`p4.4.c`](hafta4/p4.4.c))
+* **Amaç:** Girilen pozitif bir tamsayının kendisi hariç pozitif tam bölenlerinin sayısını bulmak (Örn: $8 \rightarrow 1, 2, 4 \rightarrow 3$ adet).
+* **Algoritma Mantığı:**
+  * Bölen adayı olarak sayaç `sayac = 1` değerinden başlatılır.
+  * "Kendisinden küçük" koşulu nedeniyle döngü `while (sayac < sayi)` şeklinde kurulur (sayının kendisine kadar gider, sayıyı dahil etmez).
+  * Modülüs operatörüyle (`sayi % sayac == 0`) tam bölünüp bölünmediği denetlenir; tam bölünüyorsa `bolen_sayisi++` artırılır.
+  * Döngü her adımda `sayac++` ile bir sonraki bölen adayına geçer ve sonunda toplam tam bölen adedi yazdırılır.
+
+#### 5. Problem 4.5: Vücut Kitle İndeksi (VKİ) ve Sınıflandırma ([`p4.5.c`](hafta4/p4.5.c))
+* **Amaç:** Ağırlık ($kg$) ve boy ($m$) değerlerini alarak VKİ değerini hesaplamak ve elde edilen değere göre ağırlık sınıfını belirlemek.
+* **Formül:**
+  $$VKİ = \frac{agirlik}{boy^2}$$
+* **Sınıflandırma Aralıkları:**
+  * $VKİ < 18.5 \rightarrow$ `"Zayıf"`
+  * $18.5 \le VKİ < 25 \rightarrow$ `"Sağlıklı"`
+  * $25 \le VKİ < 30 \rightarrow$ `"Şişman"`
+  * $30 \le VKİ < 40 \rightarrow$ `"Obez"`
+  * $VKİ \ge 40 \rightarrow$ `"Morbid obez"`
+* **Önemli Noktalar:**
+  * VKİ değeri önce iki ondalık basamak hassasiyetle (`printf("%.2lf\n", vki);`) yazdırılır.
+  * Ardından `if - else if - else` karar merdiveni kullanılarak sınıf belirlenir. Koşullar artan sırada kontrol edildiği için gereksiz aralık kontrolleri (`&&` operatörü) yapılmadan sade ve verimli bir yapı elde edilmiştir (Örn: `else if (vki < 25)` bloğuna gelindiğinde $vki \ge 18.5$ koşulu zaten sağlanmış durumdadır).
+
+---
+
+### ⚙️ C Kodlarını Derleme ve Çalıştırma
+
+Terminal üzerinden Hafta 4 kodlarını derleyip çalıştırmak için:
+
+```bash
+# Örnek: Problem 4.1 için
+gcc -Wall hafta4/p4.1.c -o p4.1
+./p4.1
+
+# veya tek komutta derleme ve çalıştırma:
+gcc -Wall hafta4/p4.5.c -o p4.5 && ./p4.5
+```
+
