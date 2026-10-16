@@ -259,7 +259,8 @@ Hafta 5 laboratuvarında `for` döngüsü, birikimli çarpım (akümülatör) ma
 | [`p5.2.cozum3.c`](hafta5/p5.2.cozum3.c) | **Yatay Çubuk Grafik (Çözüm 3)** | Toplu girdi alma ve her sayı için 5 ayrı ardışık `for` döngüsü kullanma |
 | [`p5.3.c`](hafta5/p5.3.c) | **Sola Dayalı Dik Üçgen Çizimi** | İç içe `for` döngüleri, dış döngü indeksine (`i`) bağlı iç döngü sınırı (`j <= i`) |
 | [`p5.4.c`](hafta5/p5.4.c) | **Piramit Şekli Çizimi** | Hizalama için azalan boşluk döngüsü (`sayi - i`) ve artan karakter döngüsü (`"aa"`) |
-| [`p5.5.c`](hafta5/p5.5.c) | **İçi Boş Kare Çizimi ($n \times n$)** | Üst/alt kenar döngüleri ve orta satırlarda kenar + $n-2$ boşluk mantığı |
+| [`p5.5.c`](hafta5/p5.5.c) | **İçi Boş Kare Çizimi ($n \times n$) (Çözüm 1)** | Üst/alt kenar döngüleri ve orta satırlarda kenar + $n-2$ boşluk mantığı |
+| [`p5.5.cozum2.c`](hafta5/p5.5.cozum2.c) | **İçi Boş Kare Çizimi ($n \times n$) (Çözüm 2)** | $n \times n$ ızgara döngüsü ve mantıksal VEYA (`\|\|`) ile sınır/çerçeve koşulu kontrolü |
 
 ---
 
@@ -309,13 +310,16 @@ Hafta 5 laboratuvarında `for` döngüsü, birikimli çarpım (akümülatör) ma
   * **1. İç Döngü (Boşluklar):** Şeklin ortalanması için her $i$. satırın başında $n - i$ adet boşluk (`" "`) bırakılır (`j = 0`'dan `sayi - i - 1`'e kadar). Satır numarası arttıkça boşluk sayısı 1 azalır.
   * **2. İç Döngü (Karakterler):** Her $i$. satırda toplam $2 \times i$ adet `'a'` basılması gerekmektedir. İç döngü `1`'den `i`'ye kadar döndürülüp her adımda çift karakter (`printf("aa");`) basılarak simetrik piramit elde edilir.
 
-#### 5. Problem 5.5: İçi Boş Kare Çizimi ([`p5.5.c`](hafta5/p5.5.c))
+#### 5. Problem 5.5: İçi Boş Kare Çizimi ([`p5.5.c`](hafta5/p5.5.c), [`p5.5.cozum2.c`](hafta5/p5.5.cozum2.c))
 * **Amaç:** Girilen $n$ tamsayısına göre $n \times n$ boyutunda, yalnızca dış çerçevesi `'a'` harflerinden oluşan içi boş bir kare çizdirmek.
-* **Algoritma Mantığı:**
-  * Problem 3 aşamaya bölünerek çözülmüştür:
-    1. **Üst Kenar:** Tek bir `for` döngüsü ile yan yana $n$ adet `'a'` basılır ve alt satıra geçilir.
-    2. **Orta Satırlar ($n - 2$ satır):** Üst ve alt satırlar hariç tutularak dış döngü $n - 2$ kez çalıştırılır. Her satırın başında sol kenar için bir `'a'`, ardından iç döngü ile $n - 2$ adet boşluk (`" "`), satır sonunda ise sağ kenar ve yeni satır için `"a\n"` yazdırılır.
-    3. **Alt Kenar:** Üst kenarla aynı şekilde yan yana $n$ adet `'a'` basılarak kare tamamlanır.
+* **İki Farklı Yaklaşımın Karşılaştırması:**
+  1. **1. Çözüm ([`p5.5.c`](hafta5/p5.5.c)) — *Bölümlendirilmiş Satır Mantığı*:** Şekil 3 ayrı parçaya bölünerek çizdirilir:
+     * **Üst Kenar:** Tek bir `for` döngüsü ile yan yana $n$ adet `'a'` basılır ve alt satıra geçilir.
+     * **Orta Satırlar ($n - 2$ satır):** Üst ve alt satırlar hariç tutularak dış döngü $n - 2$ kez çalıştırılır. Her satırın başında sol kenar için bir `'a'`, ardından iç döngü ile $n - 2$ adet boşluk (`" "`), satır sonunda ise sağ kenar ve yeni satır için `"a\n"` yazdırılır.
+     * **Alt Kenar:** Üst kenarla aynı şekilde yan yana $n$ adet `'a'` basılarak kare tamamlanır.
+  2. **2. Çözüm ([`p5.5.cozum2.c`](hafta5/p5.5.cozum2.c)) — *Koordinat / Izgara ve Sınır Koşulu Kontrolü*:** Çizim alanı $n \times n$ boyutunda iki boyutlu bir matris/ızgara olarak düşünülür (`i` satır, `j` sütun indeksi; `0`'dan `sayi - 1`'e kadar).
+     * Her `(i, j)` hücresinde mantıksal VEYA (`||`) operatörü ile hücrenin karenin kenarlarından birinde olup olmadığı kontrol edilir: `if (i == 0 || i == sayi - 1 || j == 0 || j == sayi - 1)`
+     * Koşul doğruysa (ilk satır, son satır, ilk sütun veya son sütun) ekrana `"a"`, aksi halde (iç bölge) `" "` (boşluk) basılır. Tek bir iç içe döngü yapısıyla tüm şekli üreten daha genel ve kompakt bir yaklaşımdır.
 
 ---
 

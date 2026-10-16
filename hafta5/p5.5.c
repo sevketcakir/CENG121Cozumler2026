@@ -6,6 +6,7 @@
  */
 #include<stdio.h>
 
+
 int main() {
     int sayi; // Bir adet değişken tanımlıyoruz
     scanf("%d", &sayi); // Sayıyı al
