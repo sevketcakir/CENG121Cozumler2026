@@ -9,6 +9,7 @@ Bu depo, **CENG 121 Algoritmalar ve Programlama** dersi laboratuvar uygulamalar�
 * **[Hafta 2: Akış Diyagramı Uygulamaları](#-hafta-2-akış-diyagramı-uygulamaları)** *(Görsel Algoritma Tasarımı & JSON Çözümleri)*
 * **[Hafta 3: C Programlama Uygulamaları](#-hafta-3-c-programlama-uygulamaları)** *(Temel G/Ç, Değişkenler, Aritmetik Operatörler & Koşul)*
 * **[Hafta 4: C Programlama Uygulamaları](#-hafta-4-c-programlama-uygulamaları)** *(Döngüler (while), Sayaç Mantığı, Karar Yapıları & Formül Uygulamaları)*
+* **[Hafta 5: C Programlama Uygulamaları](#-hafta-5-c-programlama-uygulamaları)** *(Döngüler (for), İç İçe Döngüler, Üs Alma & Desen/Şekil Çizimi)*
 
 ---
 
@@ -241,4 +242,94 @@ gcc -Wall hafta4/p4.1.c -o p4.1
 # veya tek komutta derleme ve çalıştırma:
 gcc -Wall hafta4/p4.5.c -o p4.5 && ./p4.5
 ```
+
+---
+
+## 📐 Hafta 5: C Programlama Uygulamaları
+
+Hafta 5 laboratuvarında `for` döngüsü, birikimli çarpım (akümülatör) mantığı ile üs alma, iç içe döngüler (nested loops) ve iki boyutlu konsol çıktılarında geometrik desen/şekil çizdirme algoritmaları (çubuk grafik, dik üçgen, piramit, içi boş kare) ele alınmıştır.
+
+### 📋 Hafta 5 Problem ve Çözüm Özeti
+
+| Dosya | Problem | Konu & Anahtar Kavramlar |
+| :--- | :--- | :--- |
+| [`p5.1.c`](hafta5/p5.1.c) | **Üs Alma Hesabı ($x^y$)** | `for` döngüsü, çarpımsal akümülatör (`sonuc = 1.0`), bileşik atama (`*=`) |
+| [`p5.2.cozum1.c`](hafta5/p5.2.cozum1.c) | **Yatay Çubuk Grafik (Çözüm 1)** | Toplu girdi alma, `if - else if` ile satır seçimi, iç içe `for` döngüsü, `puts("")` |
+| [`p5.2.cozum2.c`](hafta5/p5.2.cozum2.c) | **Yatay Çubuk Grafik (Çözüm 2)** | Döngü içinde anlık girdi alma (`scanf`) ve iç döngü ile anında yazdırma |
+| [`p5.2.cozum3.c`](hafta5/p5.2.cozum3.c) | **Yatay Çubuk Grafik (Çözüm 3)** | Toplu girdi alma ve her sayı için 5 ayrı ardışık `for` döngüsü kullanma |
+| [`p5.3.c`](hafta5/p5.3.c) | **Sola Dayalı Dik Üçgen Çizimi** | İç içe `for` döngüleri, dış döngü indeksine (`i`) bağlı iç döngü sınırı (`j <= i`) |
+| [`p5.4.c`](hafta5/p5.4.c) | **Piramit Şekli Çizimi** | Hizalama için azalan boşluk döngüsü (`sayi - i`) ve artan karakter döngüsü (`"aa"`) |
+| [`p5.5.c`](hafta5/p5.5.c) | **İçi Boş Kare Çizimi ($n \times n$)** | Üst/alt kenar döngüleri ve orta satırlarda kenar + $n-2$ boşluk mantığı |
+
+---
+
+### 🔍 Kodların Detaylı Analizi
+
+#### 1. Problem 5.1: Üs Alma Hesabı ([`p5.1.c`](hafta5/p5.1.c))
+* **Amaç:** Kullanıcıdan alınan ondalıklı bir taban ($x$) ve tamsayı kuvvet ($y$) değeri için $x^y$ sonucunu `math.h` kütüphanesi kullanmadan döngü ile hesaplamak.
+* **Algoritma Mantığı:**
+  * Çarpma işleminde etkisiz eleman `1` olduğu için `double sonuc = 1.0;` olarak ilklendirilir (bu sayede üs `0` girildiğinde döngüye girilmez ve doğru sonuç olan `1.00` üretilir).
+  * `for (int i = 0; i < us; i++)` döngüsü kuvvet değeri kadar tekrarlanır ve her adımda `sonuc *= taban;` işlemiyle taban kendi kendisiyle çarpılır.
+  * Sonuç virgülden sonra iki basamak hassasiyetle (`%.2f\n`) ekrana yazdırılır.
+
+#### 2. Problem 5.2: Yatay Çubuk Grafik Çizimi ([`p5.2.cozum1.c`](hafta5/p5.2.cozum1.c), [`p5.2.cozum2.c`](hafta5/p5.2.cozum2.c), [`p5.2.cozum3.c`](hafta5/p5.2.cozum3.c))
+* **Amaç:** Kullanıcıdan alınan 5 adet tamsayı değerine göre, her satırda ilgili sayı adedince `'a'` karakteri basarak yatay çubuk grafik oluşturmak.
+* **Örnek Çalışma (`5 3 2 0 7` girdisi için):**
+  ```text
+  aaaaa
+  aaa
+  aa
+
+  aaaaaaa
+  ```
+* **Üç Farklı Yaklaşımın Karşılaştırması:**
+  1. **1. Çözüm ([`p5.2.cozum1.c`](hafta5/p5.2.cozum1.c)) — *İç İçe Döngü ve Karar Yapısı*:** Henüz diziler (arrays) işlenmediği için 5 sayı `s1..s5` değişkenlerine tek seferde okunur. Dış döngü 1'den 5'e kadar satırları sayarken, `if - else if` bloğu ile o satırda basılacak adet (`a_sayisi`) seçilir ve iç döngüde o kadar `'a'` basılır. Satır sonu için `puts("");` kullanılmıştır.
+  2. **2. Çözüm ([`p5.2.cozum2.c`](hafta5/p5.2.cozum2.c)) — *Tek Değişken ile Anlık Okuma ve Basma*:** Yalnızca tek bir `sayi` değişkeni tanımlanır. Dış döngünün her adımında bir sayı okunur (`scanf("%d", &sayi)`) ve iç döngüyle hemen o satırın `'a'` karakterleri basılır. Etkileşimli kullanımda girdi ve çıktılar birbirine karışabileceği için ilk çözüm kadar tercih edilmese de bellek kullanımı açısından en kısa çözümdür.
+  3. **3. Çözüm ([`p5.2.cozum3.c`](hafta5/p5.2.cozum3.c)) — *Ardışık Bağımsız Döngüler*:** Tüm sayılar başta okunur ve iç içe döngü kurmak yerine her değişken (`s1, s2, s3, s4, s5`) için peş peşe 5 ayrı `for` döngüsü çalıştırılır.
+
+#### 3. Problem 5.3: Sola Dayalı Dik Üçgen Çizimi ([`p5.3.c`](hafta5/p5.3.c))
+* **Amaç:** Girilen $n$ tamsayısına göre $n$ satırdan oluşan ve her $i$. satırda $i$ adet `'a'` harfi barındıran sola dayalı dik üçgen çizdirmek.
+* **Algoritma Mantığı:**
+  * Dış döngü (`for (int i = 1; i <= sayi; i++)`) toplam satır sayısını kontrol eder.
+  * İç döngü (`for (int j = 1; j <= i; j++)`), üst sınır olarak dış döngünün o anki satır numarası olan `i` değerini alır. Böylece 1. satırda 1, 2. satırda 2, ..., $n$. satırda $n$ adet `'a'` basılır.
+  * İç döngü tamamlandığında `printf("\n");` ile bir alt satıra geçilir.
+
+#### 4. Problem 5.4: Piramit Şekli Çizimi ([`p5.4.c`](hafta5/p5.4.c))
+* **Amaç:** Girilen $n$ sayısına göre simetrik bir piramit şekli çizdirmek ($n=5$ için 1. satırda 4 boşluk + 2 `'a'`, 2. satırda 3 boşluk + 4 `'a'`, ..., 5. satırda 0 boşluk + 10 `'a'`).
+* **Beklenen Çıktı ($n = 5$):**
+  ```text
+      aa
+     aaaa
+    aaaaaa
+   aaaaaaaa
+  aaaaaaaaaa
+  ```
+* **Algoritma Mantığı:**
+  * Dış döngü `i = 1`'den `sayi` değerine kadar satırları ilerletir.
+  * **1. İç Döngü (Boşluklar):** Şeklin ortalanması için her $i$. satırın başında $n - i$ adet boşluk (`" "`) bırakılır (`j = 0`'dan `sayi - i - 1`'e kadar). Satır numarası arttıkça boşluk sayısı 1 azalır.
+  * **2. İç Döngü (Karakterler):** Her $i$. satırda toplam $2 \times i$ adet `'a'` basılması gerekmektedir. İç döngü `1`'den `i`'ye kadar döndürülüp her adımda çift karakter (`printf("aa");`) basılarak simetrik piramit elde edilir.
+
+#### 5. Problem 5.5: İçi Boş Kare Çizimi ([`p5.5.c`](hafta5/p5.5.c))
+* **Amaç:** Girilen $n$ tamsayısına göre $n \times n$ boyutunda, yalnızca dış çerçevesi `'a'` harflerinden oluşan içi boş bir kare çizdirmek.
+* **Algoritma Mantığı:**
+  * Problem 3 aşamaya bölünerek çözülmüştür:
+    1. **Üst Kenar:** Tek bir `for` döngüsü ile yan yana $n$ adet `'a'` basılır ve alt satıra geçilir.
+    2. **Orta Satırlar ($n - 2$ satır):** Üst ve alt satırlar hariç tutularak dış döngü $n - 2$ kez çalıştırılır. Her satırın başında sol kenar için bir `'a'`, ardından iç döngü ile $n - 2$ adet boşluk (`" "`), satır sonunda ise sağ kenar ve yeni satır için `"a\n"` yazdırılır.
+    3. **Alt Kenar:** Üst kenarla aynı şekilde yan yana $n$ adet `'a'` basılarak kare tamamlanır.
+
+---
+
+### ⚙️ C Kodlarını Derleme ve Çalıştırma
+
+Terminal üzerinden Hafta 5 kodlarını derleyip çalıştırmak için:
+
+```bash
+# Örnek: Problem 5.1 için
+gcc -Wall hafta5/p5.1.c -o p5.1
+./p5.1
+
+# veya tek komutta derleme ve çalıştırma:
+gcc -Wall hafta5/p5.4.c -o p5.4 && ./p5.4
+```
+
 
