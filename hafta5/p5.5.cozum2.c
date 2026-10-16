@@ -13,12 +13,10 @@
 int main() {
     int sayi; // Bir adet değişken tanımlıyoruz
     scanf("%d", &sayi); // Sayıyı al
-    for (int i = 0; i < sayi; i++)
-    {
-        for (int j = 0; j < sayi; j++)
-        {
-            if (i == 0 || i == sayi - 1 || j == 0 || j == sayi - 1)
-            {
+    for (int i = 0; i < sayi; i++) { // Satırlar için döngü
+        for (int j = 0; j < sayi; j++) { // Sütunlar için döngü
+            // Hangi hücrelere "a" basılacagını belirliyoruz
+            if (i == 0 || i == sayi - 1 || j == 0 || j == sayi - 1) {
                 printf("a");
             }
             else
