@@ -10,6 +10,7 @@ Bu depo, **CENG 121 Algoritmalar ve Programlama** dersi laboratuvar uygulamalar�
 * **[Hafta 3: C Programlama Uygulamaları](#-hafta-3-c-programlama-uygulamaları)** *(Temel G/Ç, Değişkenler, Aritmetik Operatörler & Koşul)*
 * **[Hafta 4: C Programlama Uygulamaları](#-hafta-4-c-programlama-uygulamaları)** *(Döngüler (while), Sayaç Mantığı, Karar Yapıları & Formül Uygulamaları)*
 * **[Hafta 5: C Programlama Uygulamaları](#-hafta-5-c-programlama-uygulamaları)** *(Döngüler (for), İç İçe Döngüler, Üs Alma & Desen/Şekil Çizimi)*
+* **[Hafta 6: C Programlama Uygulamaları](#-hafta-6-c-programlama-uygulamaları)** *(Kullanıcı Tanımlı Fonksiyonlar, Prototip Bildirimi, Dönüş Tipleri, `<math.h>` & Özyineleme (Recursion))*
 
 ---
 
@@ -335,5 +336,103 @@ gcc -Wall hafta5/p5.1.c -o p5.1
 # veya tek komutta derleme ve çalıştırma:
 gcc -Wall hafta5/p5.4.c -o p5.4 && ./p5.4
 ```
+
+---
+
+## 🧩 Hafta 6: C Programlama Uygulamaları
+
+Hafta 6 laboratuvarında modüler programlamanın temeli olan **fonksiyonlar (functions)** konusuna giriş yapılmıştır. Fonksiyon prototipi (bildirimi), fonksiyon gövdesi (tanımı), fonksiyon çağırma mekanizması, değer döndüren (`return`) ve döndürmeyen (`void`) fonksiyon yapıları, parametre aktarımı, `<math.h>` matematik kütüphanesi kullanımı, algoritmaların fonksiyonlar aracılığıyla modüler hale getirilmesi ve **özyinelemeli (rekürsif / recursive)** fonksiyon mantığı ele alınmıştır.
+
+### 📋 Hafta 6 Problem ve Çözüm Özeti
+
+| Dosya | Problem | Konu & Anahtar Kavramlar |
+| :--- | :--- | :--- |
+| [`p6.1.c`](hafta6/p6.1.c) | **Mutlak Değer Fonksiyonu** | Fonksiyon prototipi, `double` dönüş tipi, parametre aktarımı, koşullu `return` |
+| [`p6.2.c`](hafta6/p6.2.c) | **Hipotenüs Hesabı** | `<math.h>` ve `sqrt()` fonksiyonu, Pisagor teoremi, derlemede matematik kütüphanesi bağlama (`-lm`) |
+| [`p6.3.c`](hafta6/p6.3.c) | **Basamakları Tersten Ayrık Yazdırma** | Geriye değer döndürmeyen (`void`) fonksiyonlar, yan etki (konsol çıktısı) üreten fonksiyon yapısı, `while` ile basamak çözümleme |
+| [`p6.4.c`](hafta6/p6.4.c) | **Tam Bölen Sayısı Fonksiyonu** | Tamsayı döndüren fonksiyon (`int`), sayaç mantığı, döngü optimizasyonu (`sayi / 2`) |
+| [`p6.5.c`](hafta6/p6.5.c) | **Pisagor Dik Üçgen Sayısı** | 3 seviyeli iç içe döngü (`i < j < k <= sayi`), tamsayı kenarlı dik üçgen kombinasyonları, modüler fonksiyon tasarımı |
+| [`p6.6.c`](hafta6/p6.6.c) | **Özyinelemeli (Rekürsif) Üs Alma** | Rekürsif fonksiyon (`recursion`), temel durum (`base case`), `unsigned long long int` ve `%llu` |
+
+---
+
+### 🔍 Kodların Detaylı Analizi
+
+#### 1. Problem 6.1: Mutlak Değer Fonksiyonu ([`p6.1.c`](hafta6/p6.1.c))
+* **Amaç:** Kullanıcıdan alınan ondalıklı (`double`) bir sayının mutlak değerini hesaplayıp döndüren `mutlak` fonksiyonunu yazmak ve `main` içerisinden çağırmak.
+* **Fonksiyon İmzası:** `double mutlak(double deger);`
+* **Önemli Noktalar:**
+  * Fonksiyon prototipi `main` fonksiyonundan önce bildirilerek derleyiciye fonksiyonun dönüş tipi (`double`) ve alacağı parametre tanıtılmıştır.
+  * Fonksiyon gövdesinde `if (deger < 0) return -deger; else return deger;` yapısıyla negatif sayılarda işaret terslenmekte, pozitif veya sıfır durumunda sayının kendisi döndürülmektedir.
+  * `main` içerisinde `mutlak(sayi)` çağrısının ürettiği sonuç `sonuc` değişkenine atanmış ve `printf("%f\n", sonuc);` ile ekrana yazdırılmıştır.
+
+#### 2. Problem 6.2: Hipotenüs Hesabı ([`p6.2.c`](hafta6/p6.2.c))
+* **Amaç:** İki dik kenar uzunluğu ($a, b$) verilen bir dik üçgenin hipotenüs uzunluğunu hesaplayan `hipotenus` fonksiyonunu geliştirmek.
+* **Matematiksel Formül:**
+  $$c = \sqrt{a^2 + b^2}$$
+* **Fonksiyon İmzası:** `double hipotenus(double a, double b);`
+* **Önemli Noktalar:**
+  * Karekök hesabı için C standart matematik kütüphanesi `<math.h>` dahil edilmiş ve `sqrt()` fonksiyonundan faydalanılmıştır.
+  * Fonksiyon gövdesinde doğrudan `return sqrt(a * a + b * b);` ifadesi ile hesaplanan hipotenüs değeri döndürülmektedir.
+  * Linux/GCC ortamında `<math.h>` kütüphanesini kullanan kodlar derlenirken `-lm` (link math library) bayrağının eklenmesi gerekmektedir.
+
+#### 3. Problem 6.3: Basamakları Tersten Ayrık Yazdırma ([`p6.3.c`](hafta6/p6.3.c))
+* **Amaç:** Girilen bir tamsayının (örn. `123456`) basamaklarını birler basamağından başlayarak aralarında birer boşluk bırakacak şekilde ters sırada ekrana yazdıran (`6 5 4 3 2 1 `) `basamak_yazdir` fonksiyonunu yazmak.
+* **Fonksiyon İmzası:** `void basamak_yazdir(int sayi);`
+* **Önemli Noktalar:**
+  * Fonksiyon ekrana doğrudan çıktı bastığı ve geriye bir değer döndürmesi gerekmediği için dönüş tipi `void` olarak belirlenmiştir. Bu nedenle `main` fonksiyonunda herhangi bir atama yapılmadan yalnızca fonksiyon çağrısı (`basamak_yazdir(sayi);`) gerçekleştirilir.
+  * `while (sayi > 0)` döngüsü içerisinde:
+    * `sayi % 10` ile sayının son basamağı elde edilip ekrana basılır.
+    * `sayi /= 10` tamsayı bölmesi ile son basamak atılarak sayı küçültülür.
+
+#### 4. Problem 6.4: Tam Bölen Sayısı Fonksiyonu ([`p6.4.c`](hafta6/p6.4.c))
+* **Amaç:** Girilen pozitif bir tamsayının kendisi hariç pozitif tam bölenlerinin sayısını bulan `tam_bolen_sayisi` fonksiyonunu yazmak (Örn: $6 \rightarrow 1, 2, 3 \rightarrow 3$ adet).
+* **Fonksiyon İmzası:** `int tam_bolen_sayisi(int sayi);`
+* **Algoritma Mantığı & Optimizasyon:**
+  * Bir tamsayının kendisinden küçük en büyük böleni en fazla $\frac{sayi}{2}$ olabilir. Dolayısıyla döngü üst sınırı $sayi - 1$ yerine `sayi / 2` olarak belirlenmiş (`for (int i = 1; i <= sayi / 2; i++)`), böylece döngü adım sayısı yarıya indirilerek optimizasyon sağlanmıştır.
+  * Modülüs operatörüyle (`sayi % i == 0`) tam bölünebilirlik test edilir ve bölen durumunda `sayac++` artırılır.
+  * Fonksiyon bulunan adedi `return sayac;` ile çağrıldığı yere iletir. `main` içinde sonuç doğrudan `printf("%d\n", tam_bolen_sayisi(sayi));` ifadesiyle yazdırılır.
+
+#### 5. Problem 6.5: Pisagor Dik Üçgen Sayısı ([`p6.5.c`](hafta6/p6.5.c))
+* **Amaç:** Kenar uzunlukları tamsayı olan ve hipotenüsü de dahil olmak üzere hiçbir kenarı kullanıcıdan alınan $N$ tamsayısını aşmayan kaç adet dik üçgen ($a^2 + b^2 = c^2$) olduğunu hesaplayan `dik_ucgen_sayisi` fonksiyonunu yazmak.
+* **Örnek:** $N = 13$ için 3 adet dik üçgen bulunur: $(3, 4, 5)$, $(6, 8, 10)$ ve $(5, 12, 13)$.
+* **Fonksiyon İmzası:** `int dik_ucgen_sayisi(int sayi);`
+* **Algoritma Mantığı & Kombinasyon Optimizasyonu:**
+  * Dik kenarların yer değiştirmesiyle oluşan mükerrer üçgenleri (örn. $3-4-5$ ile $4-3-5$) engellemek amacıyla kenarlar arasında $i < j < k$ katı sıralaması benimsenmiştir.
+  * 3 seviyeli iç içe döngü yapısı kurulmuştur:
+    * Dış döngü 1. dik kenar için: `for (int i = 1; i <= sayi; i++)`
+    * Orta döngü 2. dik kenar için: `for (int j = i + 1; j <= sayi; j++)` (daima $j > i$)
+    * İç döngü hipotenüs için: `for (int k = j + 1; k <= sayi; k++)` (daima $k > j$)
+  * En iç döngüde Pisagor eşitliği (`i * i + j * j == k * k`) sağlandığında sayaç artırılır. Bu sayede tüm gereksiz permütasyonlar elenerek sadece geçerli benzersiz kombinasyonlar taranır.
+
+#### 6. Problem 6.6: Özyinelemeli (Rekürsif) Üs Alma ([`p6.6.c`](hafta6/p6.6.c))
+* **Amaç:** Kullanıcıdan alınan $[0, 14]$ aralığındaki iki tamsayı ($a, b$) için $a^b$ kuvvetini döngü kullanmadan, özyinelemeli (rekürsif) olarak hesaplayan `us` fonksiyonunu geliştirmek.
+* **Matematiksel Model:**
+  $$a^b = \begin{cases} 1, & b = 0 \quad (\text{Temel Durum / Base Case}) \\ a \times a^{b-1}, & b > 0 \quad (\text{Özyinelemeli Adım / Recursive Step}) \end{cases}$$
+* **Fonksiyon İmzası:** `unsigned long long int us(unsigned long long int a, unsigned long long int b);`
+* **Önemli Noktalar:**
+  * **Temel Durum (Base Case):** `if (b == 0) return 1;` koşulu ile özyinelemenin durma noktası tanımlanmıştır. Her sayının sıfırıncı kuvveti 1 olduğundan, çağrı zinciri burada sonlanarak geri dönüş başlar.
+  * **Özyinelemeli Çağrı (Recursive Call):** `else return a * us(a, b - 1);` satırında fonksiyon, üs değerini bir azaltarak kendisini tekrar çağırır ve yığından (call stack) geri dönerken çarpımları hesaplar.
+  * **Büyük Tamsayı Türü:** Üs alma işleminde sonuçlar çok hızlı büyüdüğünden dolayı taşma (overflow) yaşanmaması için 64-bit işaretsiz tamsayı türü `unsigned long long int` ve giriş/çıkış için `%llu` format belirteci kullanılmıştır.
+
+---
+
+### ⚙️ C Kodlarını Derleme ve Çalıştırma
+
+Terminal üzerinden Hafta 6 kodlarını derleyip çalıştırmak için:
+
+```bash
+# Örnek: Problem 6.1 için
+gcc -Wall hafta6/p6.1.c -o p6.1
+./p6.1
+
+# Problem 6.2 için math kütüphanesi (-lm) ile derleme:
+gcc -Wall hafta6/p6.2.c -o p6.2 -lm
+./p6.2
+
+# Problem 6.6 (özyinelemeli üs alma) için derleme ve çalıştırma:
+gcc -Wall hafta6/p6.6.c -o p6.6 && ./p6.6
+```
+
 
 
