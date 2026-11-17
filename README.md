@@ -11,6 +11,7 @@ Bu depo, **CENG 121 Algoritmalar ve Programlama** dersi laboratuvar uygulamalar�
 * **[Hafta 4: C Programlama Uygulamaları](#-hafta-4-c-programlama-uygulamaları)** *(Döngüler (while), Sayaç Mantığı, Karar Yapıları & Formül Uygulamaları)*
 * **[Hafta 5: C Programlama Uygulamaları](#-hafta-5-c-programlama-uygulamaları)** *(Döngüler (for), İç İçe Döngüler, Üs Alma & Desen/Şekil Çizimi)*
 * **[Hafta 6: C Programlama Uygulamaları](#-hafta-6-c-programlama-uygulamaları)** *(Kullanıcı Tanımlı Fonksiyonlar, Prototip Bildirimi, Dönüş Tipleri, `<math.h>` & Özyineleme (Recursion))*
+* **[Hafta 7: C Programlama Uygulamaları](#-hafta-7-c-programlama-uygulamaları)** *(Tek ve Çok Boyutlu Diziler, Frekans Analizi, Dairesel Rotasyon & Karakter Dizileri (Strings))*
 
 ---
 
@@ -432,6 +433,86 @@ gcc -Wall hafta6/p6.2.c -o p6.2 -lm
 
 # Problem 6.6 (özyinelemeli üs alma) için derleme ve çalıştırma:
 gcc -Wall hafta6/p6.6.c -o p6.6 && ./p6.6
+```
+
+---
+
+## 📊 Hafta 7: C Programlama Uygulamaları
+
+Hafta 7 laboratuvarında veri yapılarının temeli olan **diziler (arrays)**, **çok boyutlu diziler (matrisler)** ve **karakter dizileri (strings)** konuları ele alınmıştır. Tek boyutlu dizilerde gezinme, eleman arama ve eşsizlik tespiti, frekans dizisi (frequency array) yöntemi ile farklı eleman sayısı bulma, değişken boyutlu diziler (VLA), dizilerin fonksiyonlara argüman olarak aktarımı (`int dizi[]`, `const int dizi[]`), dizi elemanlarının dairesel kaydırılması (circular rotation), $N \times N$ iki boyutlu matrislerde satır, sütun ve köşegen toplamlarının doğrulanması (Sihirli Kare) ve `string.h` kütüphanesi (`strlen`) ile palindrom kontrolü incelenmiştir.
+
+### 📋 Hafta 7 Problem ve Çözüm Özeti
+
+| Dosya | Problem | Konu & Anahtar Kavramlar |
+| :--- | :--- | :--- |
+| [`p7.1.c`](hafta7/p7.1.c) | **Dizi Elemanlarının Eşsizlik Kontrolü** | Tek boyutlu dizi, iç içe karşılaştırma döngüleri (`i` ve `j = i + 1`), erken çıkış (`break`, flag değişkeni) |
+| [`p7.2.c`](hafta7/p7.2.c) | **Farklı Değerlerin Sayısı (Frekans Dizisi)** | Frekans / sayma dizisi (`frekans[sayi]++`), sabit aralıklı verilerde doğrudan indisleme, $O(N)$ karmaşıklık |
+| [`p7.3.c`](hafta7/p7.3.c) | **Dizide Sağa Dairesel Rotasyon** | Dizilerin fonksiyona aktarımı, `const` parametre, eleman kaydırma algoritması |
+| [`p7.4.c`](hafta7/p7.4.c) | **Sihirli Kare (Magic Square) Tespiti** | Çok boyutlu diziler ($N \times N$ matris), satır/sütun toplamları, asal ve yedek köşegen hesabı |
+| [`p7.5.c`](hafta7/p7.5.c) | **Palindrom Kelime Sayıcı** | Karakter dizileri (`char[]`), `<string.h>` ve `strlen()`, çift yönlü simetri kontrolü |
+
+---
+
+### 🔍 Kodların Detaylı Analizi
+
+#### 1. Problem 7.1: Dizi Elemanlarının Eşsizlik Kontrolü ([`p7.1.c`](hafta7/p7.1.c))
+* **Amaç:** Kullanıcıdan $N$ adet tamsayı alarak bu sayıların tamamının birbirinden farklı (eşsiz) olup olmadığını denetlemek; tüm sayılar farklıysa `"Eşsiz"`, en az bir tekrar varsa `"Tekrarlı"` yazdırmak.
+* **Algoritma Mantığı:**
+  * Elemanlar `dizi` içerisine okunduktan sonra `essiz = 1` (bayrak / flag) olarak kabul edilir.
+  * İki seviyeli iç içe döngü kurulur: Dış döngü `i = 0`'dan `n - 2`'ye, iç döngü `j = i + 1`'den `n - 1`'e kadar ilerler. Bu sayede bir elemanın kendisiyle kıyaslanması önlenir ve her eleman çifti yalnızca bir kez karşılaştırılır.
+  * Eğer `dizi[i] == dizi[j]` eşitliği yakalanırsa, `essiz = 0` yapılarak `break` ile iç döngüden çıkılır ve dış döngü de `essiz` bayrağı sayesinde erken sonlanır (short-circuit).
+  * Döngü bitiminde `if (essiz)` ile sonuç belirlenir.
+
+#### 2. Problem 7.2: Farklı Değerlerin Sayısı ([`p7.2.c`](hafta7/p7.2.c))
+* **Amaç:** Kullanıcıdan $[10, 39]$ aralığında girilen 20 tamsayı içerisinde kaç farklı (benzersiz) değer olduğunu hesaplamak.
+* **Algoritma Mantığı (Frekans Dizisi Tekniği):**
+  * Sayıların $[10, 39]$ aralığında sınırlı olduğu bilindiğinden, 40 elemanlı sıfırlarla başlatılmış (`int frekans[40] = {0};`) bir frekans dizisi tanımlanmıştır.
+  * Kullanıcıdan her sayı okunduğunda, sayının kendi değeri doğrudan dizi indisi olarak kullanılıp ilgili frekans 1 artırılır (`frekans[sayi]++`).
+  * Girişler tamamlandıktan sonra $10$'dan $39$'a kadar frekans dizisi taranır; frekansı sıfırdan büyük olan (`frekans[i] > 0`) her değer için sayaç artırılır. Bu yöntem, iç içe döngü kurmadan $O(N)$ zaman karmaşıklığıyla farklı değerleri saymayı sağlar.
+
+#### 3. Problem 7.3: Dizide Sağa Dairesel Rotasyon ([`p7.3.c`](hafta7/p7.3.c))
+* **Amaç:** Kullanıcıdan alınan $N$ elemanlı bir dizinin elemanlarını 1 birim sağa dairesel kaydırmak (son eleman en başa geçer, diğer tüm elemanlar bir indis sağa kayar).
+* **Modüler Fonksiyon Tasarımı:**
+  * `void dizi_al(int dizi[], int sayi);` $\rightarrow$ Diziyi kullanıcıdan okur.
+  * `void dizi_yazdir(const int dizi[], int sayi);` $\rightarrow$ Diziyi ekrana basar. Değiştirilmemesi gereken diziler için `const` niteleyicisi kullanılarak güvenli kodlama prensibi uygulanmıştır.
+  * `void dairesel_rotasyon(int dizi[], int sayi);` $\rightarrow$ Rotasyon işlemini gerçekleştirir.
+* **Kaydırma Algoritması:**
+  * Üzerine yazılmadan önce son eleman geçici değişkende saklanır (`int son = dizi[sayi - 1];`).
+  * Elemanların ezilmemesi (overwrite olmaması) için döngü sondan başa doğru (`i = sayi - 2`'den `0`'a) işletilir ve her eleman sağındaki göze taşınır (`dizi[i + 1] = dizi[i];`).
+  * Son olarak saklanan son eleman ilk göze atanır (`dizi[0] = son;`).
+
+#### 4. Problem 7.4: Sihirli Kare (Magic Square) Tespiti ([`p7.4.c`](hafta7/p7.4.c))
+* **Amaç:** Kullanıcıdan alınan $N \times N$ boyutundaki bir tamsayı matrisinin "Sihirli Kare" olup olmadığını belirlemek. (Sihirli kare: Tüm satırların, tüm sütunların ve her iki ana köşegenin elemanları toplamının birbirine eşit olduğu matris).
+* **Algoritma Mantığı:**
+  * **Referans Toplam:** İlk sütunun (veya satırın) toplamı alınarak referans sihirli toplam (`toplam`) belirlenir.
+  * **Asal ve Yedek Köşegenler:**
+    * Asal (ana) köşegen toplamı: $\sum matris[i][i]$
+    * Yedek (ters) köşegen toplamı: $\sum matris[i][n - 1 - i]$
+  * **Satır ve Sütun Doğrulaması:** Her $i$ satırı için satır toplamı (`matris[i][j]`) ve sütun toplamı (`matris[j][i]`) hesaplanır. Herhangi biri referans toplama eşit değilse fonksiyon derhal `0` döndürerek matrisin sihirli kare olmadığını tespit eder.
+  * Tüm satır, sütun ve her iki köşegen toplamı referans değere eşitse `1` döndürülür.
+
+#### 5. Problem 7.5: Palindrom Kelime Sayıcı ([`p7.5.c`](hafta7/p7.5.c))
+* **Amaç:** Kullanıcıdan alınan $N$ adet kelimeden kaç tanesinin tersten okunuşu ile düz okunuşu aynı (palindrom) olduğunu bulmak (Örn: `"madam"`, `"kayak"`).
+* **Fonksiyon İmzası:** `int palindrom(char kelime[]);`
+* **Algoritma Mantığı:**
+  * `<string.h>` kütüphanesinden `strlen()` fonksiyonu kullanılarak kelimenin uzunluğu ($L$) elde edilir.
+  * Döngü kelimenin ortasına kadar (`i < uzunluk / 2`) ilerletilir.
+  * Baştan $i$. karakter ile sondan $i$. karakter (`kelime[uzunluk - i - 1]`) karşılaştırılır. Uyuşmazlık görüldüğü anda `return 0;` ile erken çıkış yapılır.
+  * Döngü sorunsuz tamamlanırsa kelime palindromdur (`return 1;`). `main` fonksiyonunda her palindrom kelime için sayaç 1 artırılır.
+
+---
+
+### ⚙️ C Kodlarını Derleme ve Çalıştırma
+
+Terminal üzerinden Hafta 7 kodlarını derleyip çalıştırmak için:
+
+```bash
+# Örnek: Problem 7.1 için
+gcc -Wall hafta7/p7.1.c -o p7.1
+./p7.1
+
+# veya tek komutta derleme ve çalıştırma:
+gcc -Wall hafta7/p7.4.c -o p7.4 && ./p7.4
 ```
 
 
