@@ -12,6 +12,7 @@ Bu depo, **CENG 121 Algoritmalar ve Programlama** dersi laboratuvar uygulamalar�
 * **[Hafta 5: C Programlama Uygulamaları](#-hafta-5-c-programlama-uygulamaları)** *(Döngüler (for), İç İçe Döngüler, Üs Alma & Desen/Şekil Çizimi)*
 * **[Hafta 6: C Programlama Uygulamaları](#-hafta-6-c-programlama-uygulamaları)** *(Kullanıcı Tanımlı Fonksiyonlar, Prototip Bildirimi, Dönüş Tipleri, `<math.h>` & Özyineleme (Recursion))*
 * **[Hafta 7: C Programlama Uygulamaları](#-hafta-7-c-programlama-uygulamaları)** *(Tek ve Çok Boyutlu Diziler, Frekans Analizi, Dairesel Rotasyon & Karakter Dizileri (Strings))*
+* **[Hafta 8: C Programlama Uygulamaları](#-hafta-8-c-programlama-uygulamaları)** *(İşaretçiler (Pointers), İşaretçi Aritmetiği, `const` İşaretçiler & Kayan Pencere)*
 
 ---
 
@@ -513,6 +514,78 @@ gcc -Wall hafta7/p7.1.c -o p7.1
 
 # veya tek komutta derleme ve çalıştırma:
 gcc -Wall hafta7/p7.4.c -o p7.4 && ./p7.4
+```
+
+---
+
+## 🎯 Hafta 8: C Programlama Uygulamaları
+
+Hafta 8 laboratuvarında C dilinin en temel ve güçlü kavramlarından **işaretçiler (pointers)** ve **işaretçi aritmetiği** ele alınmıştır. Dereferencing (`*ptr`), işaretçi ilerletme/geriletme (`ptr++`, `ptr--`, `*(ptr + k)`), salt okunur veri aktarımı için `const` işaretçiler (`const int *`, `const char *`), iki işaretçi (two-pointer) ile adres karşılaştırma, `fgets` ile satır okuma ve diziler üzerinde kayan pencere (sliding window) algoritması uygulanmıştır.
+
+### 📋 Hafta 8 Problem ve Çözüm Özeti
+
+| Dosya | Problem | Konu & Anahtar Kavramlar |
+| :--- | :--- | :--- |
+| [`p8.1.c`](hafta8/p8.1.c) | **İlk Negatiften Önceki Pozitiflerin Toplamı** | `const int *`, dereferencing (`*sayilar`), işaretçi artırma (`sayilar++`), erken dönüş (`return`) |
+| [`p8.2.c`](hafta8/p8.2.c) | **İşaretçilerle Palindrom Kontrolü** | İki işaretçi (two-pointer) tekniği, adres karşılaştırması (`bas < son`), `strlen`, `bas++` / `son--` |
+| [`p8.3.c`](hafta8/p8.3.c) | **Cümledeki Kelime Sayısını Bulma** | `fgets`, `const char *`, null sonlandırıcı (`'\0'`) kontrolü, ardışık boşluk geçişi (`*(mevcut + 1)`) |
+| [`p8.4.c`](hafta8/p8.4.c) | **Kayan Pencere Ortalamaları (Çözüm 1)** | `#define` sabitleri, `while` döngüsü, işaretçi ofseti (`*(girdi + 1)`, `*(girdi + 2)`), iki işaretçiyi eşzamanlı ilerletme |
+| [`p8.4.cozum2.c`](hafta8/p8.4.cozum2.c) | **Kayan Pencere Ortalamaları (Çözüm 2)** | `for` döngüsünde virgül operatörü (`,`) ile sayaç ve iki işaretçiyi tek satırda güncelleme |
+
+---
+
+### 🔍 Kodların Detaylı Analizi
+
+#### 1. Problem 8.1: İlk Negatiften Önceki Pozitiflerin Toplamı ([`p8.1.c`](hafta8/p8.1.c))
+* **Amaç:** Kullanıcıdan alınan 50 tamsayılık dizide, karşılaşılan ilk negatif sayıdan önce gelen pozitif sayıların toplamını işaretçiler kullanarak hesaplamak.
+* **Fonksiyon İmzası:** `int pozitif_toplam(const int *sayilar, int adet);`
+* **Önemli Noktalar:**
+  * `const int *sayilar` parametresi dizinin başlangıç adresini alır ve `const` niteleyicisi sayesinde fonksiyon içinde dizi elemanlarının değiştirilmesini önler.
+  * Döngü içinde `*sayilar` ifadesi ile işaretçinin o an gösterdiği adresteki değer okunur (dereferencing).
+  * Eğer `*sayilar < 0` ise `return toplam;` ile fonksiyon derhal sonlandırılır; aksi halde değer toplama eklenir ve `sayilar++;` ile işaretçi bir sonraki `int` elemanının adresine ilerletilir.
+
+#### 2. Problem 8.2: İşaretçilerle Palindrom Kontrolü ([`p8.2.c`](hafta8/p8.2.c))
+* **Amaç:** Kullanıcıdan alınan kelimelerin palindrom olup olmadığını (baştan ve sondan okunuşu aynı) iki işaretçi kullanarak tespit etmek ve toplam palindrom sayısını yazdırmak.
+* **Fonksiyon İmzası:** `int palindrom(const char *kelime);`
+* **Algoritma Mantığı (İki İşaretçi / Two-Pointer):**
+  * İki işaretçi tanımlanır: `bas = kelime` (ilk karakterin adresi) ve `son = kelime + strlen(kelime) - 1` (son karakterin adresi; `'\0'` karakterinden bir önceki konum).
+  * `while (bas < son)` koşuluyla iki işaretçi ortada buluşana veya birbirini geçene kadar adres karşılaştırması yapılır.
+  * Her adımda `*bas != *son` kontrolü gerçekleştirilir; farklı karakter görülürse `return 0;` döndürülür. Eşitse `bas++` sağa, `son--` sola kaydırılır. Döngü sorunsuz biterse `return 1;` döndürülür.
+  * Hafta 7'deki indis tabanlı [`p7.5.c`](hafta7/p7.5.c) çözümünün işaretçi aritmetiği ile uygulanmış karşılığıdır.
+
+#### 3. Problem 8.3: Cümledeki Kelime Sayısını Bulma ([`p8.3.c`](hafta8/p8.3.c))
+* **Amaç:** Kullanıcıdan alınan bir cümle içerisindeki kelime sayısını işaretçilerle metin üzerinde dolaşarak hesaplamak (noktalama ve tırnak işaretleri kelimenin parçası kabul edilir).
+* **Fonksiyon İmzası:** `int kelime_sayisi(const char *satir);`
+* **Önemli Noktalar:**
+  * `main` içinde boşluklu satırları okuyabilmek için `fgets(satir, sizeof(satir), stdin);` kullanılmıştır.
+  * `const char *mevcut = satir;` işaretçisi metin sonu karakterine (`*mevcut != '\0'`) ulaşana kadar `mevcut++` ile ilerletilir.
+  * Kelimeler arasında birden fazla boşluk bulunabileceği için, ardışık boşlukları tek geçiş olarak saymak adına `if (*mevcut == ' ' && *(mevcut + 1) != ' ')` koşulu kullanılır (boşluktan boşluk olmayan bir karaktere geçiş noktaları sayılır).
+  * Elde edilen geçiş sayısına `1` eklenerek (`return sayac + 1;`) toplam kelime adedi döndürülür.
+
+#### 4. Problem 8.4: Kayan Pencere Ortalamaları ([`p8.4.c`](hafta8/p8.4.c), [`p8.4.cozum2.c`](hafta8/p8.4.cozum2.c))
+* **Amaç:** 10 tamsayılık (`DIZI_BOYUTU = 10`) girdi dizisinde ardışık 3 sayının tamsayı ortalamasını (ondalık kısmı atılarak) hesaplayıp 8 elemanlı (`KAYAN_DIZI_BOYUTU = 8`) çıktı dizisine işaretçilerle kaydetmek.
+* **Örnek Çalışma:**
+  * **Girdi:** `10 15 20 25 30 35 40 45 50 55`
+  * **Çıktı (alt alta):** `15`, `20`, `25`, `30`, `35`, `40`, `45`, `50`
+* **Fonksiyon İmzası:** `void kayan_pencere(int *girdi, int *kayan_dizi);`
+* **İşaretçi Aritmetiği ve İki Çözümün Karşılaştırması:**
+  * Her iki çözümde de pencere ortalaması `*kayan_dizi = (*girdi + *(girdi + 1) + *(girdi + 2)) / 3;` ifadesiyle hesaplanır; ofset aritmetiği (`girdi + 1`, `girdi + 2`) ile penceredeki ardışık üç elemana erişilir.
+  1. **1. Çözüm ([`p8.4.c`](hafta8/p8.4.c)) — *`while` Döngüsü ile Adım Adım İlerleme*:** Ayrı bir `sayac` değişkeni ile `while (sayac < KAYAN_DIZI_BOYUTU)` döngüsü kurulur; her adımda `sayac++`, `kayan_dizi++` ve `girdi++` satırları ayrı ayrı ilerletilir.
+  2. **2. Çözüm ([`p8.4.cozum2.c`](hafta8/p8.4.cozum2.c)) — *Virgül Operatörlü `for` Döngüsü*:** `for (int i = 0; i < KAYAN_DIZI_BOYUTU; i++, kayan_dizi++, girdi++)` yapısında virgül operatörü (`,`) kullanılarak sayaç ve iki işaretçinin artırımı tek ifadede toplanmış, daha kompakt bir çözüm elde edilmiştir.
+
+---
+
+### ⚙️ C Kodlarını Derleme ve Çalıştırma
+
+Terminal üzerinden Hafta 8 kodlarını derleyip çalıştırmak için:
+
+```bash
+# Örnek: Problem 8.1 için
+gcc -Wall hafta8/p8.1.c -o p8.1
+./p8.1
+
+# veya tek komutta derleme ve çalıştırma:
+gcc -Wall hafta8/p8.4.c -o p8.4 && ./p8.4
 ```
 
 
